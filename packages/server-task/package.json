@@ -1,0 +1,21 @@
+{
+  "name": "@somy/server-task",
+  "version": "1.0.3",
+  "description": "A tool for handle task",
+  "license": "MIT",
+  "author": "somy",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "prepublish": "npm run build",
+    "test": "jest --runInBand --forceExit"
+  },
+  "dependencies": {
+    "archiver": "5.3.1",
+    "archiver-zip-encryptable": "1.0.10",
+    "bullmq": "1.86.2",
+    "default-gateway": "6.0.3",
+    "ipaddr.js": "2.0.1",
+    "moment": "^2.29.3"
+  }
+}

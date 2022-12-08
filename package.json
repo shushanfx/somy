@@ -1,0 +1,60 @@
+{
+  "name": "somy",
+  "version": "1.0.0",
+  "description": "A framework for somy.",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "postinstall": "husky install",
+    "commit": "git-cz"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shushanfx/somy.git"
+  },
+  "lint-staged": {
+    "packages/**/*.ts": [
+      "eslint"
+    ],
+    "packages/**/*.{js,jsx,vue}": [
+      "eslint"
+    ],
+    "**/package.json": [
+      "sort-package-json"
+    ],
+    "package.json": [
+      "sort-package-json"
+    ]
+  },
+  "keywords": [
+    "Somy",
+    "Tool"
+  ],
+  "author": "shushanfx",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/shushanfx/somy/issues"
+  },
+  "homepage": "https://github.com/shushanfx/somy#readme",
+  "devDependencies": {
+    "@commitlint/cli": "^16.2.3",
+    "@commitlint/config-conventional": "^16.2.1",
+    "@commitlint/cz-commitlint": "^16.2.3",
+    "@types/jest": "27.4.0",
+    "@types/node": "14.17.3",
+    "@typescript-eslint/eslint-plugin": "^5.45.1",
+    "@typescript-eslint/parser": "^5.45.1",
+    "commitizen": "^4.2.4",
+    "eslint": "^7.32.0",
+    "git-cz": "^4.9.0",
+    "husky": "^7.0.0",
+    "jest": "27.4.5",
+    "lint-staged": "^13.0.3",
+    "node": "14.17.3",
+    "sort-package-json": "^1.55.0",
+    "typescript": "^4.9.3"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}

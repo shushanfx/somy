@@ -1,0 +1,25 @@
+{
+  "name": "@somy/server-excel",
+  "version": "1.0.4",
+  "description": "A tool for excel.",
+  "license": "MIT",
+  "author": "somy",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "prepublish": "npm run build",
+    "test": "npm run build && export NODE_OPTIONS=\"--max-old-space-size=8192\" && jest --runInBand --forceExit"
+  },
+  "dependencies": {
+    "exceljs": "4.3.0",
+    "tmp": "0.2.1"
+  },
+  "devDependencies": {
+    "@babel/core": "7.16.7",
+    "@babel/plugin-transform-runtime": "7.16.7",
+    "@babel/preset-typescript": "7.16.7",
+    "@babel/runtime": "7.16.7",
+    "jest": "27.4.5",
+    "typescript": "4.5.4"
+  }
+}
