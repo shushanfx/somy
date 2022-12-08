@@ -2,7 +2,6 @@ import exceljs from 'exceljs';
 import stream from 'stream';
 import fs from 'fs';
 import { ExcelWorkBook, ExcelParameter } from './excel';
-// @ts-ignore
 import tmp from 'tmp';
 
 export type CommandFunction = () => Promise<any>;

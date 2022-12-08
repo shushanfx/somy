@@ -1,5 +1,6 @@
 import { Job, RepeatOptions, JobsOptions } from 'bullmq';
 import { Queue } from './queue';
+import { EventEmitter } from 'events';
 
 export interface TaskJobRepeatConfig {
   /**
@@ -77,7 +78,7 @@ export interface TaskLogger {
   error(...args: any);
 }
 
-export abstract class BaseConsumer {
+export abstract class BaseConsumer extends EventEmitter{
   task: Task;
   logger: TaskLogger;
   ip: string|undefined;
@@ -87,6 +88,7 @@ export abstract class BaseConsumer {
     ip?: string;
     queue: Queue;
   }) {
+    super();
     this.task = task;
     this.logger = options.logger;
     this.ip = options.ip;
@@ -118,24 +120,22 @@ export abstract class BaseConsumer {
       const maxRetryTimes = this.task?.opts?.attempts && this.task?.opts.attempts > 0 ? this.task.opts.attempts : 1;
       this.logBoth(`execute job fail. ${e?.message || ''} in time ${currentTimes}`);
       if (currentTimes >= maxRetryTimes) {
-        if (opts.error?.receivers?.length) {
-          const receivers = [
-            ...opts.error.receivers,
-          ];
-          const content = `${opts.error.title || `执行异步任务${this.task.name}异常，`}`;
-          this.logBoth(`Mail content: ${content}`);
-          await this.queue.sendEmail({
-            title: opts.error.title || `【cmp任务】执行异步任务${this.task.name}异常，请联系管理员。`,
-            content,
-            receivers,
-          });
+        const result = await this.onError(e, currentTimes, this.task);
+        if (!result) {
+          return ;
         }
       }
       throw e;
     }
   }
-  async onBefore(_task: Task): Promise<void> {};
-  async onComplete(_error: Error | null, _task: Task): Promise<void> {};
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
+  async onBefore(_task: Task): Promise<void> {}
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
+  async onComplete(_error: Error | null, _task: Task): Promise<void> {}
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
+  async onError(_error: Error, retryTimes: number, _task: Task): Promise<boolean> {
+    return true;
+  }
   abstract run(task: Task): Promise<TaskResult | void>;
 }
 
@@ -143,7 +143,6 @@ export abstract class BaseConsumer {
  * 空任务，不进行具体的任务，Queue中用得到。
  */
 export class EmptyConsumer extends BaseConsumer {
-  async run(_task: Task): Promise<void | TaskResult> {
-    // 不进行任何任务
-  }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
+  async run(_task: Task): Promise<void | TaskResult> {}
 }
